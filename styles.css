@@ -1,0 +1,256 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Arial', sans-serif;
+}
+
+.gift-container {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gift-container:hover {
+    transform: scale(1.05);
+}
+
+.gift-box {
+    width: 200px;
+    height: 200px;
+    background: #e74c3c;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Vertical ribbon */
+.ribbon-vertical {
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    background: gold;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Horizontal ribbon */
+.ribbon-horizontal {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    background: gold;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Bow on top */
+.bow {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 70px;
+}
+
+/* Left loop of bow */
+.bow-left {
+    position: absolute;
+    width: 45px;
+    height: 50px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    border-radius: 50% 50% 50% 0%;
+    left: -5px;
+    top: 5px;
+    transform: rotate(-30deg);
+    box-shadow:
+        inset -3px -3px 8px rgba(0, 0, 0, 0.2),
+        3px 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Right loop of bow */
+.bow-right {
+    position: absolute;
+    width: 45px;
+    height: 50px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    border-radius: 50% 50% 0% 50%;
+    right: -5px;
+    top: 5px;
+    transform: rotate(30deg);
+    box-shadow:
+        inset 3px -3px 8px rgba(0, 0, 0, 0.2),
+        -3px 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Center knot of bow */
+.bow-center {
+    position: absolute;
+    width: 25px;
+    height: 30px;
+    background: linear-gradient(180deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    border-radius: 3px;
+    left: 50%;
+    top: 15px;
+    transform: translateX(-50%);
+    box-shadow:
+        inset 0 2px 5px rgba(255, 255, 255, 0.3),
+        0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+/* Left ribbon tail */
+.bow-knot {
+    position: absolute;
+    width: 15px;
+    height: 35px;
+    background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    left: 28px;
+    bottom: -30px;
+    transform: rotate(-15deg);
+    box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.3);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Right ribbon tail */
+.bow-knot:after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 35px;
+    background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    left: 14px;
+    top: 0;
+    transform: rotate(30deg);
+    box-shadow: -2px 3px 8px rgba(0, 0, 0, 0.3);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Gift tag */
+.gift-tag {
+    position: fixed;
+    left: 30px;
+    bottom: 30px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: rotate(-3deg);
+    font-family: 'Courier New', monospace;
+}
+
+.gift-tag:before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    left: 10px;
+    top: 10px;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.gift-tag-text {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    margin-left: 15px;
+}
+
+
+/* Popup overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.popup-overlay.active .popup-content {
+    transform: scale(1);
+}
+
+.popup-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.close-button {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+    color: #333;
+}
+
+.close-button:hover {
+    transform: scale(1.1);
+    background: #f0f0f0;
+}
+
+/* Animation when clicked */
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-5deg) scale(1.05); }
+    75% { transform: rotate(5deg) scale(1.05); }
+}
+
+.gift-container.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes popOut {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.gift-container.pop-out {
+    animation: popOut 0.5s ease-in-out;
+}
