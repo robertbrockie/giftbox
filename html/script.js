@@ -8,6 +8,9 @@ const toParam = urlParams.get('to') || 'Kim';
 const fromParam = urlParams.get('from') || 'Brock';
 const imgParam = urlParams.get('img') || urlParams.get('src') || 'https://nuvebrand.com/cdn/shop/files/nuve-silk-3-pro-pdp-slider-hero-shot.webp?v=1760790737&width=1445';
 
+// Update page title
+document.title = `Gift for ${toParam}`;
+
 // Update gift tag
 const giftTagText = document.querySelector('.gift-tag-text');
 giftTagText.innerHTML = `To: ${toParam}<br>Love: ${fromParam}`;
