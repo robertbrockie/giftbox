@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Gift Link</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .generator-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .generator-container h1 {
+            text-align: center;
+            color: #d63384;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d63384;
+        }
+
+        .generate-button {
+            width: 100%;
+            padding: 12px;
+            background: #d63384;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .generate-button:hover {
+            background: #b02a6a;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .result-container.active {
+            display: block;
+        }
+
+        .result-container h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .generated-link {
+            word-break: break-all;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .copy-button {
+            padding: 8px 16px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .copy-button:hover {
+            background: #0b5ed7;
+        }
+
+        .open-button {
+            padding: 8px 16px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .open-button:hover {
+            background: #157347;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator-container">
+        <h1>Generate Gift Link</h1>
+
+        <form id="giftForm">
+            <div class="form-group">
+                <label for="toInput">To:</label>
+                <input type="text" id="toInput" placeholder="Recipient name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fromInput">From:</label>
+                <input type="text" id="fromInput" placeholder="Your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="imgInput">Image URL:</label>
+                <input type="url" id="imgInput" placeholder="https://example.com/image.jpg" required>
+            </div>
+
+            <button type="submit" class="generate-button">Generate Link</button>
+        </form>
+
+        <div class="result-container" id="resultContainer">
+            <h3>Your Gift Link:</h3>
+            <div class="generated-link" id="generatedLink"></div>
+            <button class="copy-button" id="copyButton">Copy Link</button>
+            <button class="open-button" id="openButton">Open Gift</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('giftForm');
+        const resultContainer = document.getElementById('resultContainer');
+        const generatedLink = document.getElementById('generatedLink');
+        const copyButton = document.getElementById('copyButton');
+        const openButton = document.getElementById('openButton');
+
+        let currentLink = '';
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const to = document.getElementById('toInput').value;
+            const from = document.getElementById('fromInput').value;
+            const img = document.getElementById('imgInput').value;
+
+            const params = new URLSearchParams({
+                to: to,
+                from: from,
+                img: img
+            });
+
+            const baseUrl = window.location.href.replace('generate.html', 'index.html');
+            currentLink = `${baseUrl.split('?')[0]}?${params.toString()}`;
+
+            generatedLink.textContent = currentLink;
+            resultContainer.classList.add('active');
+        });
+
+        copyButton.addEventListener('click', function() {
+            navigator.clipboard.writeText(currentLink).then(() => {
+                const originalText = copyButton.textContent;
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = originalText;
+                }, 2000);
+            });
+        });
+
+        openButton.addEventListener('click', function() {
+            window.open(currentLink, '_blank');
+        });
+    </script>
+</body>
+</html>
